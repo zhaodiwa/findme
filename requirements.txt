@@ -1,0 +1,12 @@
+fastapi
+uvicorn
+pydantic
+langchain>=0.1.14
+sentence-transformers
+faiss-cpu
+unstructured
+pytesseract
+Pillow
+pdfminer.six
+python-docx
+langchain-community
