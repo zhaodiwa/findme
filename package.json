@@ -1,0 +1,157 @@
+{
+  "name": "findme",
+  "version": "1.0.0",
+  "description": "本地智能文件语义搜索器",
+  "main": "electron/main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "npm run dev:all",
+    "dev:electron": "electron .",
+    "dev:react": "webpack serve --mode development --hot",
+    "build:react": "webpack --mode production",
+    "dev:all": "concurrently \"npm run dev:react\" \"npm run dev:electron\"",
+    "dev:simple": "concurrently \"python3 python/simple_api.py\" \"electron .\"",
+    "clean": "rm -rf dist && rm -rf node_modules/.cache/electron-builder",
+    "package-mac-intel": "npm run build:react && CSC_IDENTITY_AUTO_DISCOVERY=true NODE_ENV=production electron-builder --mac --x64 --config.directories.output=dist/mac/x64 --dir=false && ./build-scripts/notarize.sh \"dist/mac/x64/找我呀-x64.dmg\"",
+    "package-mac-arm": "npm run build:react && CSC_IDENTITY_AUTO_DISCOVERY=true NODE_ENV=production electron-builder --mac --arm64 --config.directories.output=dist/mac/arm64 --dir=false && ./build-scripts/notarize.sh \"dist/mac/arm64/找我呀-arm64.dmg\"",
+    "package-win": "npm run build:react && NODE_ENV=production electron-builder --win --x64 --config.directories.output=dist/win/x64 --dir=false",
+    "package-all": "npm run clean && npm run package-win && npm run package-mac-intel && npm run package-mac-arm"
+  },
+  "build": {
+    "appId": "com.findme.app",
+    "productName": "找我呀",
+    "compression": "normal",
+    "asar": true,
+    "asarUnpack": [
+      "python/**/*",
+      "requirements.txt"
+    ],
+    "extraResources": [
+      {
+        "from": "python",
+        "to": "python",
+        "filter": [
+          "**/*"
+        ]
+      },
+      {
+        "from": "requirements.txt",
+        "to": "requirements.txt"
+      }
+    ],
+    "directories": {
+      "buildResources": "public",
+      "output": "dist"
+    },
+    "files": [
+      "electron/**/*",
+      "public/**/*",
+      "node_modules/",
+      "!**/node_modules/**/node_modules/**/*",
+      "!**/node_modules/*/{test,tests,__tests__,example,examples}/**/*",
+      "!**/node_modules/*/*.{md,markdown}",
+      "!**/node_modules/.bin",
+      "!**/node_modules/*/README*",
+      "!**/node_modules/*/CHANGELOG*",
+      "!**/node_modules/*/docs/**/*",
+      "!**/node_modules/*/coverage/**/*",
+      "!**/.DS_Store",
+      "!**/*.log",
+      "!**/*.ts",
+      "!**/*.map",
+      "!**/.env.*",
+      "!**/.DS_Store",
+      "!**/.git",
+      "!**/.idea",
+      "!**/.vscode",
+      "!**/Thumbs.db",
+      "!**/npm-debug.log",
+      "!**/yarn.lock",
+      "!**/pnpm-lock.yaml",
+      "!**/.git"
+    ],
+    "mac": {
+      "category": "public.app-category.utilities",
+      "target": [
+        "dmg"
+      ],
+      "icon": "public/app.icns",
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false,
+      "entitlements": "build-scripts/entitlements.mac.plist",
+      "entitlementsInherit": "build-scripts/entitlements.mac.plist",
+      "notarize": false,
+      "artifactName": "${productName}-${arch}.${ext}"
+    },
+    "dmg": {
+      "sign": true,
+      "contents": [
+        {
+          "x": 130,
+          "y": 220
+        },
+        {
+          "x": 410,
+          "y": 220,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "icon": "public/favicon.ico",
+      "artifactName": "${productName}-win.${ext}"
+    },
+    "nsis": {
+      "oneClick": true,
+      "perMachine": false
+    },
+    "linux": {
+      "target": [
+        "AppImage"
+      ],
+      "icon": "public/app.png"
+    },
+    "publish": [
+      {
+        "provider": "generic",
+        "url": "https://mp-f71314a3-8e1f-4006-a851-35291a8ced09.cdn.bspapp.com/findme/${os}/${arch}",
+        "updaterCacheDirName": "findme-updater"
+      }
+    ]
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@electron/notarize": "^3.0.1",
+    "@types/react": "^18.2.28",
+    "@types/react-dom": "^18.2.13",
+    "concurrently": "^8.2.2",
+    "css-loader": "^6.11.0",
+    "electron": "^36.2.1",
+    "electron-builder": "^26.0.12",
+    "html-webpack-plugin": "^5.6.3",
+    "style-loader": "^3.3.4",
+    "ts-loader": "^9.5.2",
+    "typescript": "^5.2.2",
+    "webpack": "^5.99.7",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^4.15.2"
+  },
+  "dependencies": {
+    "@alicloud/mpserverless-node-sdk": "^1.2.3",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.14.12",
+    "@mui/material": "^5.14.12",
+    "axios": "^1.5.1",
+    "electron-log": "^5.0.1",
+    "electron-store": "^8.1.0",
+    "electron-updater": "^6.6.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
+}
