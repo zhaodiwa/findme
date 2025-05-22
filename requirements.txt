@@ -1,0 +1,35 @@
+# 基础工具依赖 - 首先安装
+watchdog>=3.0.0    # 文件系统监控
+httpx>=0.26.0
+orjson>=3.9.12
+
+# 核心依赖 - API服务
+fastapi==0.110.0
+uvicorn==0.25.0
+
+# 图像和辅助工具依赖
+numpy>=1.26.0
+openpyxl>=3.0.0
+
+# API服务相关 - 通义千问
+dashscope>=1.14.1  # 通义千问AI服务SDK
+
+# 文档解析相关 - 按需安装
+python-docx>=1.1.0  # Word文档解析
+python-pptx>=0.6.23  # PPT解析
+pandas>=2.2.1  # Excel和数据处理
+PyPDF2>=3.0.1  # PDF解析
+pdfminer.six>=20231228  # PDF文本提取
+PyMuPDF>=1.20.0  # PDF高级处理
+chardet>=5.0.0  # 文件编码检测，用于CSV文件
+
+# LangChain相关
+langchain-core>=0.3.56
+langchain>=0.3.24
+langchain-community>=0.3.22
+
+# 向量检索相关依赖 - 必需
+faiss-cpu>=1.7.4  # 向量检索引擎
+
+# 非必需但可选的功能依赖
+unstructured>=0.11.2  # 非结构化文档解析
