@@ -18,9 +18,9 @@ fi
 # 执行公证
 echo "开始公证: $DMG_PATH"
 xcrun notarytool submit "$DMG_PATH" \
-  --apple-id "enniphone@sina.com" \
-  --password "loqt-xvmq-gfar-rgej" \
-  --team-id "22ZNNCDS7U" \
+  --apple-id "XXX" \
+  --password "XXX" \
+  --team-id "xxx" \
   --wait
 
 # 检查公证结果
